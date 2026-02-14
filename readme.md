@@ -1,4 +1,5 @@
-# AWS Sentinel - Cloud Cost Analytics & Governance
+![Architecture](docs/cover.png)
+# AWS Sentinel - Cloud Cost Analytics
 
 ## Introduction
 **AWS Sentinel** is an end-to-end solution designed to transform fragmented cloud billing data into high-level strategic insights. In modern cloud environments, managing costs is as critical as managing infrastructure. This project provides a robust, serverless framework to monitor, audit, and optimize AWS spending using a **Medallion Data Architecture**.
@@ -17,6 +18,7 @@ The data pipeline follows the **Medallion Architecture**, progressing through th
 * **Gold Layer (Aggregation & Insights)**: The final refined layer where complex business logic is applied. Data is aggregated (Group By) by service, region, and operation to power high-level financial KPIs while maintaining the granularity required for deep-dive auditing in the dashboard.
 
 ## Architecture Overview
+![Architecture](docs/architeture.JPG)
 The project is built entirely on **AWS Serverless** infrastructure to ensure maximum scalability with near-zero idle costs:
 
 * **Storage**: **Amazon S3** organized into Medallion layers (Raw, Silver, Gold) for structured data progression.
@@ -45,3 +47,4 @@ The project is built entirely on **AWS Serverless** infrastructure to ensure max
 1.  **Athena & Lambda**: Developed a Python Lambda to execute SQL queries and return optimized JSON payloads for the frontend.
 2.  **API Gateway**: Exposed the Lambda via a REST endpoint with **CORS** support.
 3.  **Frontend & Deployment**: Developed a React dashboard featuring daily spending trends, regional distribution, and a **Detailed Audit Log with CSV Export**. Deployed via **AWS Amplify** for automated CI/CD.
+![Architecture](docs/dashboard.png)
