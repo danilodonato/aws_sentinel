@@ -1,0 +1,201 @@
+{
+	"jobConfig": {
+		"name": "job_raw_to_silver",
+		"description": "",
+		"role": "arn:aws:iam::442205875938:role/GlueServiceRole-CostSentinel",
+		"command": "glueetl",
+		"version": "5.0",
+		"runtime": null,
+		"workerType": "G.1X",
+		"numberOfWorkers": 10,
+		"maxCapacity": 10,
+		"jobRunQueuingEnabled": false,
+		"maxRetries": 0,
+		"timeout": 480,
+		"maxConcurrentRuns": 1,
+		"security": "none",
+		"scriptName": "job_raw_to_silver.py",
+		"scriptLocation": "s3://aws-glue-assets-442205875938-us-east-2/scripts/",
+		"language": "python-3",
+		"spark": true,
+		"sparkConfiguration": "standard",
+		"jobParameters": [],
+		"tags": [],
+		"jobMode": "VISUAL_MODE",
+		"createdOn": "2026-02-10T08:02:24.756Z",
+		"developerMode": false,
+		"connectionsList": [],
+		"temporaryDirectory": "s3://aws-glue-assets-442205875938-us-east-2/temporary/",
+		"glueHiveMetastore": true,
+		"etlAutoTuning": true,
+		"metrics": true,
+		"observabilityMetrics": true,
+		"bookmark": "job-bookmark-disable",
+		"sparkPath": "s3://aws-glue-assets-442205875938-us-east-2/sparkHistoryLogs/",
+		"flexExecution": false,
+		"minFlexWorkers": null,
+		"maintenanceWindow": null,
+		"pythonPath": "",
+		"dependentPath": "",
+		"additionalPythonModules": ""
+	},
+	"dag": {
+		"node-1770710910149": {
+			"nodeId": "node-1770710910149",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1770710298656"
+			],
+			"name": "Amazon S3",
+			"generatedNodeName": "AmazonS3_node1770710910149",
+			"classification": "DataSink",
+			"type": "S3",
+			"streamingBatchInterval": 100,
+			"format": "glueparquet",
+			"compression": "snappy",
+			"numberTargetPartitions": "0",
+			"path": "s3://aws-cost-sentinel-danilo/silver/",
+			"partitionKeys": [],
+			"schemaChangePolicy": {
+				"enableUpdateCatalog": false,
+				"updateBehavior": null,
+				"database": null,
+				"table": null
+			},
+			"updateCatalogOptions": "none",
+			"autoDataQuality": {
+				"isEnabled": true,
+				"evaluationContext": "EvaluateDataQuality_node1770710788432"
+			},
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1770710239594": {
+			"nodeId": "node-1770710239594",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [],
+			"name": "AWS Glue Data Catalog",
+			"generatedNodeName": "AWSGlueDataCatalog_node1770710239594",
+			"classification": "DataSource",
+			"type": "Catalog",
+			"isCatalog": true,
+			"database": "db_cost_sentinel",
+			"table": "raw",
+			"partitionPredicate": "",
+			"calculatedType": "",
+			"runtimeParameters": [],
+			"codeGenVersion": 2
+		},
+		"node-1770710298656": {
+			"nodeId": "node-1770710298656",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1770710239594"
+			],
+			"name": "Change Schema",
+			"generatedNodeName": "ChangeSchema_node1770710298656",
+			"classification": "Transform",
+			"type": "ApplyMapping",
+			"mapping": [
+				{
+					"toKey": "identity_line_item_id",
+					"fromPath": [
+						"identity_line_item_id"
+					],
+					"toType": "long",
+					"fromType": "long",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "usage_start_date",
+					"fromPath": [
+						"usage_start_date"
+					],
+					"toType": "date",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "product_code",
+					"fromPath": [
+						"product_code"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "operation",
+					"fromPath": [
+						"operation"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "usage_type",
+					"fromPath": [
+						"usage_type"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "region",
+					"fromPath": [
+						"region"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "unblended_cost",
+					"fromPath": [
+						"unblended_cost"
+					],
+					"toType": "double",
+					"fromType": "double",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "usage_amount",
+					"fromPath": [
+						"usage_amount"
+					],
+					"toType": "long",
+					"fromType": "long",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "unit",
+					"fromPath": [
+						"unit"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				}
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		}
+	},
+	"hasBeenSaved": false,
+	"usageProfileName": null
+}

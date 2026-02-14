@@ -1,0 +1,226 @@
+{
+	"jobConfig": {
+		"name": "job_silver_to_gold",
+		"description": "",
+		"role": "arn:aws:iam::442205875938:role/GlueServiceRole-CostSentinel",
+		"command": "glueetl",
+		"version": "5.0",
+		"runtime": null,
+		"workerType": "G.1X",
+		"numberOfWorkers": 10,
+		"maxCapacity": 10,
+		"jobRunQueuingEnabled": false,
+		"maxRetries": 0,
+		"timeout": 480,
+		"maxConcurrentRuns": 1,
+		"security": "none",
+		"scriptName": "job_silver_to_gold.py",
+		"scriptLocation": "s3://aws-glue-assets-442205875938-us-east-2/scripts/",
+		"language": "python-3",
+		"spark": false,
+		"sparkConfiguration": "standard",
+		"jobParameters": [],
+		"tags": [],
+		"jobMode": "VISUAL_MODE",
+		"createdOn": "2026-02-10T08:19:05.921Z",
+		"developerMode": false,
+		"connectionsList": [],
+		"temporaryDirectory": "s3://aws-glue-assets-442205875938-us-east-2/temporary/",
+		"glueHiveMetastore": true,
+		"etlAutoTuning": true,
+		"metrics": true,
+		"observabilityMetrics": true,
+		"bookmark": "job-bookmark-disable",
+		"sparkPath": "s3://aws-glue-assets-442205875938-us-east-2/sparkHistoryLogs/",
+		"flexExecution": false,
+		"minFlexWorkers": null,
+		"maintenanceWindow": null,
+		"pythonPath": "",
+		"dependentPath": "",
+		"additionalPythonModules": ""
+	},
+	"dag": {
+		"node-1770711502912": {
+			"nodeId": "node-1770711502912",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1770711358881"
+			],
+			"name": "Amazon S3",
+			"generatedNodeName": "AmazonS3_node1770711502912",
+			"classification": "DataSink",
+			"type": "S3",
+			"streamingBatchInterval": 100,
+			"format": "glueparquet",
+			"compression": "snappy",
+			"numberTargetPartitions": "0",
+			"path": "s3://aws-cost-sentinel-danilo/gold/",
+			"partitionKeys": [],
+			"schemaChangePolicy": {
+				"enableUpdateCatalog": false,
+				"updateBehavior": null,
+				"database": null,
+				"table": null
+			},
+			"updateCatalogOptions": "none",
+			"autoDataQuality": {
+				"isEnabled": true,
+				"evaluationContext": "EvaluateDataQuality_node1770711285852"
+			},
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1770711320725": {
+			"nodeId": "node-1770711320725",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [],
+			"name": "Amazon S3",
+			"generatedNodeName": "AmazonS3_node1770711320725",
+			"classification": "DataSource",
+			"type": "S3",
+			"isCatalog": false,
+			"format": "parquet",
+			"paths": [
+				"s3://aws-cost-sentinel-danilo/silver/"
+			],
+			"compressionType": null,
+			"exclusions": [],
+			"groupFiles": null,
+			"groupSize": null,
+			"recurse": true,
+			"maxBand": null,
+			"maxFilesInBand": null,
+			"additionalOptions": {
+				"boundedSize": null,
+				"boundedFiles": null,
+				"enableSamplePath": false,
+				"samplePath": "s3://aws-cost-sentinel-danilo/silver/run-1770806083338-part-block-0-r-00000-snappy.parquet",
+				"boundedOption": null
+			},
+			"outputSchemas": [
+				[
+					{
+						"key": "identity_line_item_id",
+						"fullPath": [
+							"identity_line_item_id"
+						],
+						"type": "bigint",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "usage_start_date",
+						"fullPath": [
+							"usage_start_date"
+						],
+						"type": "date",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "product_code",
+						"fullPath": [
+							"product_code"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "operation",
+						"fullPath": [
+							"operation"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "usage_type",
+						"fullPath": [
+							"usage_type"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "region",
+						"fullPath": [
+							"region"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "unblended_cost",
+						"fullPath": [
+							"unblended_cost"
+						],
+						"type": "double",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "usage_amount",
+						"fullPath": [
+							"usage_amount"
+						],
+						"type": "bigint",
+						"glueStudioType": null,
+						"children": null
+					},
+					{
+						"key": "unit",
+						"fullPath": [
+							"unit"
+						],
+						"type": "string",
+						"glueStudioType": null,
+						"children": null
+					}
+				]
+			],
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1770711358881": {
+			"nodeId": "node-1770711358881",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1770711320725"
+			],
+			"name": "Aggregate",
+			"generatedNodeName": "Aggregate_node1770711358881",
+			"classification": "Transform",
+			"type": "Aggregate",
+			"parentsValid": true,
+			"calculatedType": "",
+			"groups": [
+				"product_code",
+				"region",
+				"operation",
+				"usage_start_date",
+				"usage_type",
+				"unit"
+			],
+			"aggs": [
+				{
+					"column": "usage_amount",
+					"aggFunc": "sum"
+				},
+				{
+					"column": "unblended_cost",
+					"aggFunc": "sum"
+				}
+			],
+			"codeGenVersion": 2
+		}
+	},
+	"hasBeenSaved": false,
+	"usageProfileName": null
+}
