@@ -47,4 +47,6 @@ The project is built entirely on **AWS Serverless** infrastructure to ensure max
 1.  **Athena & Lambda**: Developed a Python Lambda to execute SQL queries and return optimized JSON payloads for the frontend.
 2.  **API Gateway**: Exposed the Lambda via a REST endpoint with **CORS** support.
 3.  **Frontend & Deployment**: Developed a React dashboard featuring daily spending trends, regional distribution, and a **Detailed Audit Log with CSV Export**. Deployed via **AWS Amplify** for automated CI/CD.
+
+
 ![Architecture](docs/dashboard.png)
