@@ -1,4 +1,4 @@
-![Architecture](docs/cover.png)
+![Architecture](docs/cover.svg)
 # AWS Sentinel - Cloud Cost Analytics
 
 ## Introduction
